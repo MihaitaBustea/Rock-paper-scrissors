@@ -19,16 +19,18 @@ function getPlayerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    let winner = undefined;
     if (playerSelection === computerSelection) {
-        return "It's a TIE, the player chose " + playerSelection + " while the computer chose " + computerSelection + ".";
+        return "It's a TIE!";
     } else if (playerSelection === "rock" && computerSelection === "scrissors" || playerSelection === "scrissors" && computerSelection === "paper" || playerSelection === "paper" && computerSelection === "rock") {
-        winner = "The player";
-        console.log(winner + " won. They chose " + playerSelection + " while the computer chose " + computerSelection + ".");
-        return winner;
+        let slicedString = playerSelection.slice(1);
+        let firstLetter = playerSelection.charAt(0).toUpperCase();
+        let winnerChoice = firstLetter + slicedString;
+        return "You won! " + winnerChoice + " beats " + computerSelection + ".";
     } else {
-        winner = "The computer";
-        console.log(winner + " won. They chose " + computerSelection + " while the player chose " + playerSelection+ ".");
-        return winner;
+        let slicedString = computerSelection.slice(1);
+        let firstLetter = computerSelection.charAt(0).toUpperCase();
+        let winnerChoice = firstLetter + slicedString;
+        return "You lost! " + winnerChoice + " beats " + playerSelection + ".";;
     }
 }
+
