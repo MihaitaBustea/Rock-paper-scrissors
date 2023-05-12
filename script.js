@@ -34,3 +34,38 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
+function game() {
+    let gameStatus = 1;
+    let playerScore = 0;
+    // if (playerScore > 0) {
+    //     playerScore = 0;
+    // }
+    let computerScore = 0;
+    // if (computerScore > 0) {
+    //     computerScore = 0;
+    // }
+    while (gameStatus === 1) {
+        let roundResult = playRound(getPlayerChoice(), getComputerChoice());
+        console.log(roundResult);
+        if (roundResult.slice(4, 7) === "won") {
+            playerScore +=1;
+            console.log("You: " + playerScore);
+            console.log("Computer: " + computerScore);
+        } else if (roundResult.slice(4, 8) === "lost") {
+            computerScore += 1;
+            console.log("You: " + playerScore);
+            console.log("Computer: " + computerScore);
+        } else {
+            console.log("You: " + playerScore);
+            console.log("Computer: " + computerScore);
+        }
+        if (playerScore > 4) {
+            console.log("You won the match with " + playerScore + " points over the computer's " + computerScore + " points.");
+            gameStatus = 0;
+        } else if (computerScore > 4) {
+            console.log("The computer won the match with " + computerScore + " points over your " + playerScore + " points.");
+            gameStatus = 0;
+
+        }
+    }
+}
