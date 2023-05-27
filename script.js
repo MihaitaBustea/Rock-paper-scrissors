@@ -5,18 +5,33 @@ function getComputerChoice() {
     return computerSelection;
 }
 
-function getPlayerChoice() {
-    let choseSomething = 0;
-        while (choseSomething === 0) {
-        let playerSelection = prompt("Choose your weapon. What will it be? Rock, paper or scrissors ?").toLowerCase();
-        if (playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scrissors") {
-            choseSomething = 1;
-            return playerSelection;
-        } else {
-            alert("You did not make a valid choice, please try again!");
+document.addEventListener("click", (e) => 
+    {
+        let playerChoice = e.target.className;
+        if(playerChoice !== "rock" && playerChoice !== "paper" && playerChoice !== "scrissors"){
+            return;
+        }else{
+            let computerChoice = getComputerChoice();
+            console.log(playRound(playerChoice, computerChoice));
+            let messageBoard = document.getElementsByClassName("message");
+            let playerScore = document.getElementsByClassName("playerScore");
+            let computerScore = document.getElementsByClassName("computerScore");
         }
     }
-}
+);
+
+// function getPlayerChoice() {
+//     let choseSomething = 0;
+//         while (choseSomething === 0) {
+//         let playerSelection = prompt("Choose your weapon. What will it be? Rock, paper or scrissors ?").toLowerCase();
+//         if (playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scrissors") {
+//             choseSomething = 1;
+//             return playerSelection;
+//         } else {
+//             alert("You did not make a valid choice, please try again!");
+//         }
+//     }
+// }
 
 function playRound(playerSelection, computerSelection) {
     if (playerSelection === computerSelection) {
@@ -34,38 +49,32 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    let gameStatus = 1;
-    let playerScore = 0;
-    // if (playerScore > 0) {
-    //     playerScore = 0;
-    // }
-    let computerScore = 0;
-    // if (computerScore > 0) {
-    //     computerScore = 0;
-    // }
-    while (gameStatus === 1) {
-        let roundResult = playRound(getPlayerChoice(), getComputerChoice());
-        console.log(roundResult);
-        if (roundResult.slice(4, 7) === "won") {
-            playerScore +=1;
-            console.log("You: " + playerScore);
-            console.log("Computer: " + computerScore);
-        } else if (roundResult.slice(4, 8) === "lost") {
-            computerScore += 1;
-            console.log("You: " + playerScore);
-            console.log("Computer: " + computerScore);
-        } else {
-            console.log("You: " + playerScore);
-            console.log("Computer: " + computerScore);
-        }
-        if (playerScore > 4) {
-            console.log("You won the match with " + playerScore + " points over the computer's " + computerScore + " points.");
-            gameStatus = 0;
-        } else if (computerScore > 4) {
-            console.log("The computer won the match with " + computerScore + " points over your " + playerScore + " points.");
-            gameStatus = 0;
+// function game() {
+//     let gameStatus = 1;
+//     let playerScore = 0;
+//     let computerScore = 0;
+//     while (gameStatus === 1) {
+//         let roundResult = playRound(getPlayerChoice(), getComputerChoice());
+//         console.log(roundResult);
+//         if (roundResult.slice(4, 7) === "won") {
+//             playerScore +=1;
+//             console.log("You: " + playerScore);
+//             console.log("Computer: " + computerScore);
+//         } else if (roundResult.slice(4, 8) === "lost") {
+//             computerScore += 1;
+//             console.log("You: " + playerScore);
+//             console.log("Computer: " + computerScore);
+//         } else {
+//             console.log("You: " + playerScore);
+//             console.log("Computer: " + computerScore);
+//         }
+//         if (playerScore > 4) {
+//             console.log("You won the match with " + playerScore + " points over the computer's " + computerScore + " points.");
+//             gameStatus = 0;
+//         } else if (computerScore > 4) {
+//             console.log("The computer won the match with " + computerScore + " points over your " + playerScore + " points.");
+//             gameStatus = 0;
 
-        }
-    }
-}
+//         }
+//     }
+// }
