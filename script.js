@@ -1,80 +1,85 @@
+//Creeate a node list with all the buttons that have the .choice class
+const choices = document.querySelectorAll("button");
+
+//Store the text content of the button i press in the playerSelection variable
+let playerSelection = "";
+choices.forEach(choice => {
+        choice.addEventListener("click", getPlayerChoice);
+});
+
+function getPlayerChoice(e) {
+    playerSelection = e.target.textContent.toLowerCase();
+    // console.log(playerSelection);
+    // getComputerChoice();
+    if (playerRounds < 5 && computerRounds < 5){
+        let roundResult = playRound(playerSelection, getComputerChoice());
+    } else {
+        document.querySelector(".message").textContent = checkForWinner(playerRounds, computerRounds)
+    };
+    return playerSelection;
+};
+
+//Store the computer choice in a variable using a function that makes a random choice
+//from a list of predefined choices.
+let computerSelection = "";
 function getComputerChoice() {
-    let choices = ["rock", "paper", "scrissors"];
-    let randomIndex = Math.floor(Math.random()*choices.length);
-    let computerSelection = choices[randomIndex].toLowerCase();
+    const choices = ["rock", "paper", "scrissors"];
+    computerSelection = choices[Math.floor(Math.random()*choices.length)];
     return computerSelection;
 }
 
-document.addEventListener("click", (e) => 
-    {
-        let playerChoice = e.target.className;
-        if(playerChoice !== "rock" && playerChoice !== "paper" && playerChoice !== "scrissors"){
-            return;
-        }else{
-            let computerChoice = getComputerChoice();
-            console.log(playRound(playerChoice, computerChoice));
-            let messageBoard = document.getElementsByClassName("message");
-            let playerScore = document.getElementsByClassName("playerScore");
-            let computerScore = document.getElementsByClassName("computerScore");
+playerRounds = 0;
+computerRounds = 0;
+roundOutcome = "";
+let displayResult = document.querySelector(".message");
+
+function playRound(playerSelection, computerSelection){
+    let playerScore = document.querySelector(".playerScore");
+    let computerScore = document.querySelector(".computerScore");
+    if(playerSelection !== "rock" && playerSelection !== "paper" && playerSelection !== "scrissors"){
+        return
+    }else {
+        if(playerSelection === computerSelection){
+            roundOutcome = "It's a TIE!";
+            displayResult.textContent = roundOutcome;
+            checkForWinner(playerRounds, computerRounds);
+            return roundOutcome;
+        } else if (playerSelection === "rock" && computerSelection === "scrissors" || playerSelection === "scrissors" && computerSelection === "paper" || playerSelection === "paper" && computerSelection === "rock") {
+            let slicedString = playerSelection.slice(1);
+            let firstLetter = playerSelection.charAt(0).toUpperCase();
+            let winnerChoice = firstLetter + slicedString;
+            roundOutcome = "You won! " + winnerChoice + " beats " + computerSelection + ".";
+            displayResult.textContent = roundOutcome;
+            playerRounds += 1;
+            checkForWinner(playerRounds, computerRounds);
+            playerScore.textContent = "You: " + playerRounds;
+            return roundOutcome;
+        } else {
+            let slicedString = computerSelection.slice(1);
+            let firstLetter = computerSelection.charAt(0).toUpperCase();
+            let winnerChoice = firstLetter + slicedString;
+            roundOutcome = "You lost! " + winnerChoice + " beats " + playerSelection + ".";
+            displayResult.textContent = roundOutcome;
+            computerRounds += 1;
+            checkForWinner(playerRounds, computerRounds);
+            computerScore.textContent = "Computer: " + computerRounds;
+            checkForWinner(playerRounds, computerRounds);
+            return roundOutcome;
         }
     }
-);
+};
 
-// function getPlayerChoice() {
-//     let choseSomething = 0;
-//         while (choseSomething === 0) {
-//         let playerSelection = prompt("Choose your weapon. What will it be? Rock, paper or scrissors ?").toLowerCase();
-//         if (playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scrissors") {
-//             choseSomething = 1;
-//             return playerSelection;
-//         } else {
-//             alert("You did not make a valid choice, please try again!");
-//         }
-//     }
-// }
-
-function playRound(playerSelection, computerSelection) {
-    if (playerSelection === computerSelection) {
-        return "It's a TIE!";
-    } else if (playerSelection === "rock" && computerSelection === "scrissors" || playerSelection === "scrissors" && computerSelection === "paper" || playerSelection === "paper" && computerSelection === "rock") {
-        let slicedString = playerSelection.slice(1);
-        let firstLetter = playerSelection.charAt(0).toUpperCase();
-        let winnerChoice = firstLetter + slicedString;
-        return "You won! " + winnerChoice + " beats " + computerSelection + ".";
+function checkForWinner(playerScore, computerScore) {
+    if (playerScore === 5){
+        displayResult.textContent = "You won!";
+        return "You won!";
+    } else if (computerScore === 5){
+        displayResult.textContent = "The computer won!";
+        return "The computer won!";
     } else {
-        let slicedString = computerSelection.slice(1);
-        let firstLetter = computerSelection.charAt(0).toUpperCase();
-        let winnerChoice = firstLetter + slicedString;
-        return "You lost! " + winnerChoice + " beats " + playerSelection + ".";;
+        return;
     }
-}
+};
 
-// function game() {
-//     let gameStatus = 1;
-//     let playerScore = 0;
-//     let computerScore = 0;
-//     while (gameStatus === 1) {
-//         let roundResult = playRound(getPlayerChoice(), getComputerChoice());
-//         console.log(roundResult);
-//         if (roundResult.slice(4, 7) === "won") {
-//             playerScore +=1;
-//             console.log("You: " + playerScore);
-//             console.log("Computer: " + computerScore);
-//         } else if (roundResult.slice(4, 8) === "lost") {
-//             computerScore += 1;
-//             console.log("You: " + playerScore);
-//             console.log("Computer: " + computerScore);
-//         } else {
-//             console.log("You: " + playerScore);
-//             console.log("Computer: " + computerScore);
-//         }
-//         if (playerScore > 4) {
-//             console.log("You won the match with " + playerScore + " points over the computer's " + computerScore + " points.");
-//             gameStatus = 0;
-//         } else if (computerScore > 4) {
-//             console.log("The computer won the match with " + computerScore + " points over your " + playerScore + " points.");
-//             gameStatus = 0;
-
-//         }
-//     }
-// }
+resetPage = document.querySelector(".reset");
+resetPage.addEventListener("click",() => location.reload());
